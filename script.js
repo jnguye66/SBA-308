@@ -112,80 +112,73 @@ function getLearnerData(course, ag, submissions){
     try{
         // Generate results array with students results
         let results = []
-        submissions.forEach((n, i) => {
-            switch(submissions.learner_id){
-                case 5150:
-                    // Sum of all scores
-                    let sum = 0;
-                    // Counts assignments added
-                    let count = 0;
-                    // Object for student
-                    let obj = {
-                        id: 5150 // student ID
-                    }
-                    // Goes through submissions array, gets the score for each assignment under specific student ID, and stores score in new key 
-                    for (let i = 1; i <= submissions.length; i++){
-                        obj.i = submissions.submission.score / ag.assignments.points_possible;
+        // console.log(ag.assignments[0].points_possible);
+        // console.log(submissions[0].assignment_id)
 
-                        // Keeps track of sum of scores
-                        sum += (submissions.submission.score / ag.assignments.points_possible);
+        let obj1 = { // student 1 object
+            id: 5150,
+        }
+        let obj2 = { // student 2 object
+            id: 5322,
+        }
 
-                        // Counts assignments added
-                        count++;
-                    }
-                    obj.avg = sum / count;
-                    results.push(obj)
-                    break;
-                case 5322:
-                    // Sum of all scores
-                    let sum2 = 0;
-                    // Counts assignments added
-                    let count2 = 0;
-                    // Object for student
-                    let obj2 = {
-                        id: 5150 // student ID
-                    }
-                    // Goes through submissions array, gets the score for each assignment under specific student ID, and stores score in new key 
-                    for (let i = 1; i <= submissions.length; i++){
-                        obj.i = submissions.submission.score / ag.assignments.points_possible;
+        let sum = 0;
+        let sum2 = 0;
 
-                        // Keeps track of sum of scores
-                        sum2 += (submissions.submission.score / ag.assignments.points_possible);
+        let count = 0;
+        let count2 = 0;
 
-                        // Counts assignments added
-                        count2++;
-                    }
-                    obj.avg2 = sum2 / count2;
-                    results.push(obj2)
-                    break;
-                default:
-                    throw `Student ID does not match any submissions.`
+        let j = 0;
+
+        for( let i = 0; i < submissions.length; i++){
+            // console.log(submissions.learner_id)
+            if(submissions[i].learner_id === 5150){
+                // console.log(submissions[i].assignment_id)
+                if(submissions[i].assignment_id === 1){
+                    obj1.first = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100; // 95
+                    sum += obj1.first;
+                    // console.log(sum)
+                    count++;
+                    j++;
+                } else if(submissions[i].assignment_id === 2){
+                    obj1.second = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100; // 96
+                    sum += obj1.second;
+                    // console.log(sum)
+                    count++;
+                    j++
+                } else if(submissions[i].assignment_id === 3){
+                    obj1.third = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100; // 97.8
+                    sum += obj1.third;
+                    // console.log(sum) 
+                    count++;
+                    j = 0;
+                }
+                obj1.avg = sum / count;
+            } else if (submissions[i].learner_id === 5322){
+                if(submissions[i].assignment_id === 1){
+                    obj2.first = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100;
+                    sum2 += obj2.first;
+                    count2++;
+                    j++;
+                } else if(submissions[i].assignment_id === 2){
+                    obj2.second = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100;
+                    sum2 += obj2.second;
+                    count2++;
+                    j++;
+                } else if(submissions[i].assignment_id === 3){
+                    obj2.third = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100;
+                    sum2 += obj2.third;
+                    count2++;
+                    j = 0;
+                }
+                obj2.avg = sum2 / count2;
             }
-        })
-
-        // Assignment Group does not belong to Course
-        if(ag.course_id !== course.course_id){
-            throw `Assignment and Course ID's do not match. Assignments do not belong to this course.`
         }
+        // console.log(obj)
+        results.push(obj1);
+        results.push(obj2);
 
-        // Makes sure point_possible isn't 0
-        ag.assignments.forEach(points_possible => {
-            if (points_possible <= 0){
-                throw `Points for assignments cannot be 0.`
-            }
-        });
-
-        // Makes sure that values have the correct data type
-        if(typeof course.id !== number){
-            throw `Course ID must be a number`
-        }
-
-        if(typeof course.name !== string){
-            throw `Course Name must be a String`
-        }
-
-        // If assignment submitted late, do not include it in results or average
-
+        return results;
     } catch (err) {
         console.log(err)
     }
