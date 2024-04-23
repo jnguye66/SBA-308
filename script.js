@@ -31,7 +31,7 @@ let AssignmentGroup = {
         {
             id: 2,
             name: "Midterm Project",
-            due_date: "2024-04-26",
+            due_date: "2024-04-21",
             points_possible: 250
         },
         {
@@ -147,6 +147,9 @@ function getLearnerData(course, ag, submissions){
             x++;
         }
 
+        let currentDate = new Date().toJSON().slice(0,10);
+        // console.log(currentDate)
+
         // Generate results array with students results
         let results = []
 
@@ -170,56 +173,101 @@ function getLearnerData(course, ag, submissions){
             if(submissions[i].learner_id === 5150){
                 // console.log(submissions[i].assignment_id)
                 if(submissions[i].assignment_id === 1){
+                    if(ag.assignments[j].due_date > currentDate){ // If the assignments due date is greater than the current date (not due yet) don't count towards grade calc
+                        j++;
+                        continue;
+                    }
+
                     obj1.first = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100; // 95
+
                     if(submissions[i].submission.submitted_at > ag.assignments[j].due_date){ // If assignment turned in late, deduct 10 points
                         obj1.first -= 10;
                     }
+
                     sum += obj1.first; // Update sum
-                    // console.log(sum)
                     count++;
                     j++;
                 } else if(submissions[i].assignment_id === 2){
+                    // console.log(ag.assignments[j].due_date)
+                    // console.log(currentDate)
+
+                    if(ag.assignments[j].due_date > currentDate){ // If the assignments due date is greater than the current date (not due yet) don't count towards grade calc
+                        j++;
+                        continue;
+                    }
+
                     obj1.second = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100; // 96
+
                     if(submissions[i].submission.submitted_at > ag.assignments[j].due_date){ // If assignment turned in late, deduct 10 points
                         obj1.second -= 10;
                     }
+
                     sum += obj1.second; // Update sum
-                    // console.log(sum)
                     count++;
                     j++
                 } else if(submissions[i].assignment_id === 3){
+                    if(ag.assignments[j].due_date > currentDate){ // If the assignments due date is greater than the current date (not due yet) don't count towards grade calc
+                        j = 0;
+                        continue;
+                    }
+
                     obj1.third = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100; // 97.8
+
                     if(submissions[i].submission.submitted_at > ag.assignments[j].due_date){ // If assignment turned in late, deduct 10 points
                         obj1.third -= 10;
                     }
+                    
                     sum += obj1.third; // Update sum
-                    // console.log(sum) 
                     count++;
                     j = 0;
                 }
                 obj1.avg = sum / count;  // Calculate average for obj2
             } else if (submissions[i].learner_id === 5322){
                 if(submissions[i].assignment_id === 1){
-                    obj2.first = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100;
+                    if(ag.assignments[j].due_date > currentDate){ // If the assignments due date is greater than the current date (not due yet) don't count towards grade calc
+                        j++;
+                        continue;
+                    }
+
+                    obj2.first = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100; // 75
+
                     if(submissions[i].submission.submitted_at > ag.assignments[j].due_date){ // If assignment turned in late, deduct 10 points
                         obj2.first -= 10;
                     }
+
                     sum2 += obj2.first; // Update sum
                     count2++;
                     j++;
                 } else if(submissions[i].assignment_id === 2){
-                    obj2.second = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100;
+                    if(ag.assignments[j].due_date > currentDate){ // If the assignments due date is greater than the current date (not due yet) don't count towards grade calc
+                        j++;
+                        continue;
+                    }
+
+                    obj2.second = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100; // 71.6
+
                     if(submissions[i].submission.submitted_at > ag.assignments[j].due_date){ // If assignment turned in late, deduct 10 points
                         obj2.second -= 10;
                     }
+
                     sum2 += obj2.second; // Update sum
                     count2++;
                     j++;
                 } else if(submissions[i].assignment_id === 3){
-                    obj2.third = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100;
+                    if(ag.assignments[j].due_date > currentDate){ // If the assignments due date is greater than the current date (not due yet) don't count towards grade calc
+                        j = 0;
+                        continue;
+                    }
+
+                    obj2.third = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100; // 73
+
                     if(submissions[i].submission.submitted_at > ag.assignments[j].due_date){ // If assignment turned in late, deduct 10 points
                         obj2.third -= 10;
                     }
+
+                    // console.log(ag.assignments[j].due_date)
+                    // console.log(first)
+
                     sum2 += obj2.third; // Update sum
                     count2++;
                     j = 0;
@@ -231,7 +279,7 @@ function getLearnerData(course, ag, submissions){
         results.push(obj1);
         results.push(obj2);
 
-        return results;
+        return results; // Should have only first and second assignments, third assignment due date past current date, so should not pop up in final array
     } catch (err) {
         console.log(err)
     }
