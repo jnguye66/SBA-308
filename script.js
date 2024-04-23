@@ -108,6 +108,10 @@ const LearnerSubmissions = [
     },
 ]
 
+function getGrade(grade, maxPoints){ // Function to calculate the grade
+    return (grade / maxPoints) * 100;
+}
+
 function getLearnerData(course, ag, submissions){
     try{
         /**
@@ -160,11 +164,11 @@ function getLearnerData(course, ag, submissions){
             id: 5322,
         }
 
-        let sum = 0;
-        let sum2 = 0;
+        let sum = 0; // Sum for obj1
+        let sum2 = 0; // Sum for obj2
 
-        let count = 0;
-        let count2 = 0;
+        let count = 0; // Assignment count for obj1
+        let count2 = 0; // Assignment count for obj2
 
         let j = 0;
 
@@ -178,7 +182,7 @@ function getLearnerData(course, ag, submissions){
                         continue;
                     }
 
-                    obj1.first = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100; // 95
+                    obj1.first = getGrade(submissions[i].submission.score, ag.assignments[j].points_possible); // 95
 
                     if(submissions[i].submission.submitted_at > ag.assignments[j].due_date){ // If assignment turned in late, deduct 10 points
                         obj1.first -= 10;
@@ -196,7 +200,7 @@ function getLearnerData(course, ag, submissions){
                         continue;
                     }
 
-                    obj1.second = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100; // 96
+                    obj1.second = getGrade(submissions[i].submission.score, ag.assignments[j].points_possible); // 96
 
                     if(submissions[i].submission.submitted_at > ag.assignments[j].due_date){ // If assignment turned in late, deduct 10 points
                         obj1.second -= 10;
@@ -211,7 +215,7 @@ function getLearnerData(course, ag, submissions){
                         continue;
                     }
 
-                    obj1.third = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100; // 97.8
+                    obj1.third = getGrade(submissions[i].submission.score, ag.assignments[j].points_possible); // 97.8
 
                     if(submissions[i].submission.submitted_at > ag.assignments[j].due_date){ // If assignment turned in late, deduct 10 points
                         obj1.third -= 10;
@@ -229,7 +233,7 @@ function getLearnerData(course, ag, submissions){
                         continue;
                     }
 
-                    obj2.first = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100; // 75
+                    obj2.first = getGrade(submissions[i].submission.score, ag.assignments[j].points_possible); // 75
 
                     if(submissions[i].submission.submitted_at > ag.assignments[j].due_date){ // If assignment turned in late, deduct 10 points
                         obj2.first -= 10;
@@ -244,7 +248,7 @@ function getLearnerData(course, ag, submissions){
                         continue;
                     }
 
-                    obj2.second = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100; // 71.6
+                    obj2.second = getGrade(submissions[i].submission.score, ag.assignments[j].points_possible); // 71.6
 
                     if(submissions[i].submission.submitted_at > ag.assignments[j].due_date){ // If assignment turned in late, deduct 10 points
                         obj2.second -= 10;
@@ -259,7 +263,7 @@ function getLearnerData(course, ag, submissions){
                         continue;
                     }
 
-                    obj2.third = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100; // 73
+                    obj2.third = getGrade(submissions[i].submission.score, ag.assignments[j].points_possible); // 73
 
                     if(submissions[i].submission.submitted_at > ag.assignments[j].due_date){ // If assignment turned in late, deduct 10 points
                         obj2.third -= 10;
