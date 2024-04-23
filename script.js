@@ -110,10 +110,37 @@ const LearnerSubmissions = [
 
 function getLearnerData(course, ag, submissions){
     try{
+        /**
+         * Error Catching
+         */
+
+        // CourseInfo
+        if (typeof course.id !== "number"){
+            throw `Course ID must be a number.`
+        }
+        if (typeof course.name !== "string"){
+            throw `Course Name must be a string.`
+        }
+
+        // AssignmentGroup
+        if (typeof ag.id !== "number"){
+            throw `AssignmentGroup ID must be a number.`
+        }
+        if (typeof ag.name !== "string"){
+            throw `AssignmentGroup Name must be a string.`
+        }
+        if (typeof ag.course_id !== "number"){
+            throw `AssignmentGroup course ID must be a number.`
+        }
+        if (typeof ag.group_weight !== "number"){
+            throw `AssignmentGroup group weight must be a number.`
+        }
+        if (typeof ag.assignments !== "object"){
+            throw `AssignmentGroup assignments must be an object.`
+        }
+
         // Generate results array with students results
         let results = []
-        // console.log(ag.assignments[0].points_possible);
-        // console.log(submissions[0].assignment_id)
 
         let obj1 = { // student 1 object
             id: 5150,
@@ -183,7 +210,6 @@ function getLearnerData(course, ag, submissions){
         console.log(err)
     }
 }
-
 
 // Testing
 const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
