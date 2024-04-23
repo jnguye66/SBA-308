@@ -94,7 +94,7 @@ const LearnerSubmissions = [
         learner_id: 5322,
         assignment_id: 2,
         submission: {
-            submitted_at: "2024-04-26",
+            submitted_at: "2024-04-28",
             score: 179
         }
     },
@@ -163,18 +163,27 @@ function getLearnerData(course, ag, submissions){
                 // console.log(submissions[i].assignment_id)
                 if(submissions[i].assignment_id === 1){
                     obj1.first = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100; // 95
+                    if(submissions[i].submission.submitted_at > ag.assignments[j].due_date){ // If assignment turned in late, deduct 10 points
+                        obj1.first -= 10;
+                    }
                     sum += obj1.first;
                     // console.log(sum)
                     count++;
                     j++;
                 } else if(submissions[i].assignment_id === 2){
                     obj1.second = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100; // 96
+                    if(submissions[i].submission.submitted_at > ag.assignments[j].due_date){ // If assignment turned in late, deduct 10 points
+                        obj1.second -= 10;
+                    }
                     sum += obj1.second;
                     // console.log(sum)
                     count++;
                     j++
                 } else if(submissions[i].assignment_id === 3){
                     obj1.third = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100; // 97.8
+                    if(submissions[i].submission.submitted_at > ag.assignments[j].due_date){ // If assignment turned in late, deduct 10 points
+                        obj1.third -= 10;
+                    }
                     sum += obj1.third;
                     // console.log(sum) 
                     count++;
@@ -184,16 +193,25 @@ function getLearnerData(course, ag, submissions){
             } else if (submissions[i].learner_id === 5322){
                 if(submissions[i].assignment_id === 1){
                     obj2.first = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100;
+                    if(submissions[i].submission.submitted_at > ag.assignments[j].due_date){ // If assignment turned in late, deduct 10 points
+                        obj2.first -= 10;
+                    }
                     sum2 += obj2.first;
                     count2++;
                     j++;
                 } else if(submissions[i].assignment_id === 2){
                     obj2.second = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100;
+                    if(submissions[i].submission.submitted_at > ag.assignments[j].due_date){ // If assignment turned in late, deduct 10 points
+                        obj2.second -= 10;
+                    }
                     sum2 += obj2.second;
                     count2++;
                     j++;
                 } else if(submissions[i].assignment_id === 3){
                     obj2.third = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100;
+                    if(submissions[i].submission.submitted_at > ag.assignments[j].due_date){ // If assignment turned in late, deduct 10 points
+                        obj2.third -= 10;
+                    }
                     sum2 += obj2.third;
                     count2++;
                     j = 0;
