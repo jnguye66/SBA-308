@@ -94,7 +94,7 @@ const LearnerSubmissions = [
         learner_id: 5322,
         assignment_id: 2,
         submission: {
-            submitted_at: "2024-04-28",
+            submitted_at: "2024-04-28", // Late assignment
             score: 179
         }
     },
@@ -139,6 +139,14 @@ function getLearnerData(course, ag, submissions){
             throw `AssignmentGroup assignments must be an object.`
         }
 
+        let x = 0;
+        while(x < ag.assignments.length){ // Throws error if assignment in AssignmentGroup's possible points is 0 or lower.
+            if(ag.assignments[x].points_possible <= 0){
+                throw `Points possible for assignment with ID ${ag.assignments[x].id} should be above 0.`
+            }
+            x++;
+        }
+
         // Generate results array with students results
         let results = []
 
@@ -166,7 +174,7 @@ function getLearnerData(course, ag, submissions){
                     if(submissions[i].submission.submitted_at > ag.assignments[j].due_date){ // If assignment turned in late, deduct 10 points
                         obj1.first -= 10;
                     }
-                    sum += obj1.first;
+                    sum += obj1.first; // Update sum
                     // console.log(sum)
                     count++;
                     j++;
@@ -175,7 +183,7 @@ function getLearnerData(course, ag, submissions){
                     if(submissions[i].submission.submitted_at > ag.assignments[j].due_date){ // If assignment turned in late, deduct 10 points
                         obj1.second -= 10;
                     }
-                    sum += obj1.second;
+                    sum += obj1.second; // Update sum
                     // console.log(sum)
                     count++;
                     j++
@@ -184,19 +192,19 @@ function getLearnerData(course, ag, submissions){
                     if(submissions[i].submission.submitted_at > ag.assignments[j].due_date){ // If assignment turned in late, deduct 10 points
                         obj1.third -= 10;
                     }
-                    sum += obj1.third;
+                    sum += obj1.third; // Update sum
                     // console.log(sum) 
                     count++;
                     j = 0;
                 }
-                obj1.avg = sum / count;
+                obj1.avg = sum / count;  // Calculate average for obj2
             } else if (submissions[i].learner_id === 5322){
                 if(submissions[i].assignment_id === 1){
                     obj2.first = (submissions[i].submission.score / ag.assignments[j].points_possible) * 100;
                     if(submissions[i].submission.submitted_at > ag.assignments[j].due_date){ // If assignment turned in late, deduct 10 points
                         obj2.first -= 10;
                     }
-                    sum2 += obj2.first;
+                    sum2 += obj2.first; // Update sum
                     count2++;
                     j++;
                 } else if(submissions[i].assignment_id === 2){
@@ -204,7 +212,7 @@ function getLearnerData(course, ag, submissions){
                     if(submissions[i].submission.submitted_at > ag.assignments[j].due_date){ // If assignment turned in late, deduct 10 points
                         obj2.second -= 10;
                     }
-                    sum2 += obj2.second;
+                    sum2 += obj2.second; // Update sum
                     count2++;
                     j++;
                 } else if(submissions[i].assignment_id === 3){
@@ -212,11 +220,11 @@ function getLearnerData(course, ag, submissions){
                     if(submissions[i].submission.submitted_at > ag.assignments[j].due_date){ // If assignment turned in late, deduct 10 points
                         obj2.third -= 10;
                     }
-                    sum2 += obj2.third;
+                    sum2 += obj2.third; // Update sum
                     count2++;
                     j = 0;
                 }
-                obj2.avg = sum2 / count2;
+                obj2.avg = sum2 / count2; // Calculate average for obj2
             }
         }
         // console.log(obj)
