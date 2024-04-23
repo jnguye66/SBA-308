@@ -15,5 +15,6 @@ TECHNOLOGIES USED:
  - Visual Studio Code
  - GitBash
  - Javascript
+ - HTML
 
 --------------------------------------------------------------------
